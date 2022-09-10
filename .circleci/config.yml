@@ -323,17 +323,14 @@ jobs:
           command: |
             apk add --update ansible tar gzip aws-cli openssh-client npm curl
       - run:
-          name: Get backend url
+          name: Backend smoke test.
           command: |
             BACKEND_IP=$(aws ec2 describe-instances \
             --query 'Reservations[*].Instances[*].PublicIpAddress' \
             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
             --output text)
             export API_URL="http://${BACKEND_IP}:3030"
-            echo "${API_URL}"
-      - run:
-          name: Backend smoke test.
-          command: |
+            echo "${API_URL}/api/status"
             if curl "${API_URL}/api/status" | grep "ok"
             then
                 return 0
