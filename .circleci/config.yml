@@ -383,7 +383,7 @@ jobs:
                 --parameter-overrides WorkflowID="udapeople-${CIRCLE_WORKFLOW_ID:0:7}" \
                 --tags project=udapeople
             
-            echo OldWorkflowID: "${OldWrokflowID}"
+            echo OldWorkflowID: "${OldWorkflowID}"
             echo CurrentWorkFlowID: "udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
 
       - persist_to_workspace:
@@ -412,7 +412,7 @@ jobs:
             # Fetch the Old workflow ID
             cat ~/OldWorkflowID.txt
             OldWorkflowID=$(cat ~/OldWorkflowID.txt)
-            echo OldWorkflowID: "${OldWrokflowID}"
+            echo OldWorkflowID: "${OldWorkflowID}"
             echo $OldWorkflowID
       - run:
           name: Remove old stacks and files
@@ -420,9 +420,9 @@ jobs:
             if [[ "${CIRCLE_WORKFLOW_ID:0:7}" != "${OldWorkflowID}" ]]
             then
               echo "------Deleting--------"
-              aws s3 rm "s3://udapeople-${OldWorkflowID}" --recursive
-              aws cloudformation delete-stack --stack-name "udapeople-backend-${OldWorkflowID}"
-              aws cloudformation delete-stack --stack-name "udapeople-frontend-${OldWorkflowID}"
+              aws s3 rm s3://udapeople-${OldWorkflowID} --recursive
+              aws cloudformation delete-stack --stack-name udapeople-backend-${OldWorkflowID}
+              aws cloudformation delete-stack --stack-name udapeople-frontend-${OldWorkflowID}
             fi
 
 workflows:
